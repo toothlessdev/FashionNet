@@ -1,3 +1,11 @@
+requests
 beautifulsoup4
-pillow
 
+numpy
+pillow
+scikit-learn
+(https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+
+
+3dimension data knn
+https://stackoverflow.com/questions/48312205/find-the-k-nearest-neighbours-of-a-point-in-3d-space-with-python-numpy

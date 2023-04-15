@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+import numpy
+from PIL import Image
+
 headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"}
 
 class HttpForbiddenException(Exception):
@@ -43,4 +46,11 @@ def get_item_info(index):
     else:
         raise HttpForbiddenException(response.status_code, url+str(index))
 
+def get_principle_color(image_url):
+    image = Image.open(requests.get(url=image_url, stream=True).raw)
+    image_pixel = numpy.asarray(image)
+
+    
+
+    image.close()
 
