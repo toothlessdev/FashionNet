@@ -1,8 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-import numpy
-from PIL import Image
+from image import ItemImage
 
 headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"}
 
@@ -36,21 +35,18 @@ def get_item_info(index):
 
         category = soup.select("div.product_info > p > a")[0].text
         category_sub = soup.select("div.product_info > p > a")[1].text
+        image_url = soup.select_one("div.product-img > img")["src"]
+
+        item_image = ItemImage("https:" + image_url)
+        item_image.get_colors()
+        principle_colors = item_image.get_principle_color()
 
         item_info = {
             "category" : category,
             "category_sub" : category_sub,
+            "colors" : list(principle_colors.keys())
         }
         return item_info
 
     else:
         raise HttpForbiddenException(response.status_code, url+str(index))
-
-def get_principle_color(image_url):
-    image = Image.open(requests.get(url=image_url, stream=True).raw)
-    image_pixel = numpy.asarray(image)
-
-    
-
-    image.close()
-
