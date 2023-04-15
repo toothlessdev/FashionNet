@@ -47,5 +47,5 @@ def get_item_info(index):
         }
         return item_info
 
-    else:
+    elif response.status_code == 404:
         raise HttpForbiddenException(response.status_code, url+str(index))

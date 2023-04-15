@@ -25,14 +25,16 @@ def get_color_symbol(color):
     
 
 class ItemImage:
-    def __init__(self, image_url, resize_size=(100,100), url_web=True):
+    def __init__(self, image_url, resize=True, resize_size=(100,100), url_web=True):
         if url_web:
             self.image = Image.open(requests.get(url=image_url, stream=True).raw)
         else:
             self.image = Image.open(image_url)
 
-        self.image = self.image.resize(size=resize_size, resample=Resampling.NEAREST)
+        if resize:
+            self.image = self.image.resize(size=resize_size, resample=Resampling.NEAREST)
         self.image_pixel = np.array(self.image.convert('RGB')).reshape((-1,3))
+
 
 
     # 주 색상 n개 리턴, limit 비율 보다 적은 색상은 버림 (기본값 0.05)
@@ -52,8 +54,10 @@ class ItemImage:
                 self.principle_color[key] = value
         return self.principle_color
 
-    def get_principle_color_kmeans(self, n=4, random_state=20):
-        kmeans = KMeans(n_clusters=n, random_state=random_state).fit(self.image_pixel)
+
+    # k-means clustering 으로 주요 색상 추출
+    def get_principle_color_kmeans(self, cluster_size=4):
+        kmeans = KMeans(n_clusters=cluster_size).fit(self.image_pixel)
         colors = kmeans.cluster_centers_
         return colors.astype(int)
 
@@ -63,9 +67,17 @@ if __name__ == "__main__":
     # test code for image.py
     # img = ItemImage("https://image.msscdn.net/images/goods_img/20230210/3074892/3074892_16760091686503_500.jpg", url_web=True)
     img = ItemImage("https://image.msscdn.net/images/goods_img/20210808/2052494/2052494_1_500.jpg")
-    
+
     principle_colors = img.get_principle_color()
     for c in principle_colors:
         print(c)
 
     print(img.get_principle_color_kmeans())
+
+    colors = dict()
+    for key, item in colortable.color_categories.items():
+        colors[key] = 0
+    for color in img.get_principle_color_kmeans():
+        colors[get_color_symbol(color=color)] += 1
+    colors = sorted(colors.items(), key = lambda item: item[1], reverse=True)
+    print(colors)
