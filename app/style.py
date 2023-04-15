@@ -38,7 +38,6 @@ def get_item_info(index):
         image_url = soup.select_one("div.product-img > img")["src"]
 
         item_image = ItemImage("https:" + image_url)
-        item_image.get_colors()
         principle_colors = item_image.get_principle_color()
 
         item_info = {

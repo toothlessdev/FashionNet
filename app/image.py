@@ -1,7 +1,10 @@
 import requests
 import numpy as np
-import os
+
 from PIL import Image
+from PIL.Image import Resampling
+from sklearn.cluster import KMeans
+
 import colortable
 import math
 
@@ -24,36 +27,35 @@ def get_color_symbol(color):
 class ItemImage:
     def __init__(self, image_url, resize_size=(100,100), url_web=True):
         if url_web:
-            self.image = Image.open(requests.get(url=image_url, stream=True).raw).resize(resize_size)
+            self.image = Image.open(requests.get(url=image_url, stream=True).raw)
         else:
-            self.image = Image.open(image_url).resize(resize_size)
+            self.image = Image.open(image_url)
 
-        self.image_pixel = self.image.convert('RGB')
+        self.image = self.image.resize(size=resize_size, resample=Resampling.NEAREST)
+        self.image_pixel = np.array(self.image.convert('RGB')).reshape((-1,3))
 
+
+    # 주 색상 n개 리턴, limit 비율 보다 적은 색상은 버림 (기본값 0.05)
+    def get_principle_color(self, n=4, limit=0.05):
         self.colors = dict()
         self.principle_color = dict()
 
         for key, item in colortable.color_categories.items():
             self.colors[key] = 0
 
-    def get_resized_image(self):
-        self.image.save("resized.jpg")
-
-    def get_colors(self):
-        for row in range(self.image_pixel.width):
-            for col in range(self.image_pixel.height):
-                color = np.array(self.image_pixel.getpixel((row,col)))
-                self.colors[get_color_symbol(color=color)] += 1
+        for pixel in self.image_pixel:
+            self.colors[get_color_symbol(color=pixel)] += 1
         self.colors = sorted(self.colors.items(), key = lambda item: item[1], reverse=True)
 
-        return self.colors
-
-    # 주 색상 n개 리턴, limit 비율 보다 적은 색상은 버림 (기본값 0.05)
-    def get_principle_color(self, n=4, limit=0.05):
         for key, value in self.colors:
             if value > self.image.width * self.image.height * limit:
                 self.principle_color[key] = value
         return self.principle_color
+
+    def get_principle_color_kmeans(self, n=4, random_state=20):
+        kmeans = KMeans(n_clusters=n, random_state=random_state).fit(self.image_pixel)
+        colors = kmeans.cluster_centers_
+        return colors.astype(int)
 
 
 
@@ -61,13 +63,9 @@ if __name__ == "__main__":
     # test code for image.py
     # img = ItemImage("https://image.msscdn.net/images/goods_img/20230210/3074892/3074892_16760091686503_500.jpg", url_web=True)
     img = ItemImage("https://image.msscdn.net/images/goods_img/20210808/2052494/2052494_1_500.jpg")
-    colors= img.get_colors()
-
-    for color in colors:
-        print(color)
-
+    
     principle_colors = img.get_principle_color()
     for c in principle_colors:
         print(c)
 
-    img.get_resized_image()
+    print(img.get_principle_color_kmeans())
