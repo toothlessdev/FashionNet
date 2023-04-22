@@ -17,12 +17,11 @@ color_categories = {
     "navy":np.array([0,42,149]),
     "purple":np.array([152,18,141]),
     "pink":np.array([222,5,106]),
-
 }
 
 
-'''
-color_categories = {
+
+color_categories_ = {
     '화이트': np.array([220,220,220]),
     '블랙': np.array([50,50,50]),
     '그레이': np.array([178,178,178]),
@@ -47,4 +46,3 @@ color_categories = {
     
     '퍼플':np.array([87,12,112]),
 }
-'''

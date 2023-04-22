@@ -1,4 +1,4 @@
-<h1 style="font-size:40px">FashionNet</h1>
+<h1 style="font-size:40px; text-align:center;">FashionNet</h1>
 
 <h1><strong>style.py</strong></h1>
 

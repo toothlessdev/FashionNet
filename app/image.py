@@ -38,7 +38,7 @@ class ItemImage:
 
 
     # 주 색상 n개 리턴, limit 비율 보다 적은 색상은 버림 (기본값 0.05)
-    def get_principle_color(self, n=4, limit=0.05):
+    def get_principle_color(self, n=5, limit=0.05):
         self.colors = dict()
         self.principle_color = dict()
 
@@ -57,7 +57,7 @@ class ItemImage:
 
     # k-means clustering 으로 주요 색상 추출
     def get_principle_color_kmeans(self, cluster_size=4):
-        kmeans = KMeans(n_clusters=cluster_size).fit(self.image_pixel)
+        kmeans = KMeans(n_clusters=cluster_size, n_init=10).fit(self.image_pixel)
         colors = kmeans.cluster_centers_
         return colors.astype(int)
 
