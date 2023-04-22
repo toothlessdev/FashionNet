@@ -1,5 +1,14 @@
 <h1 style="font-size:40px; text-align:center;">FashionNet</h1>
 
+<h2>Tasks</h2>
+<h4>● get_style_list 함수구현 : /codimap/lists?page 로 부터 /codimap/views/ 에 들어갈 index 파싱 (23.4.23)</h4>
+<h4></h4>
+<h4>○ Item 클래스 만들어서 image.py 에 ItemImage 클래스 상속</h4>
+<h4>○ style.py 에 get_item_info 에서 Item 클래스 리턴하도록 수정</h4>
+<h4>● </h4>
+
+<br><br><br><br>
+
 <h1><strong>style.py</strong></h1>
 
 <h2><strong>Functions</strong></h2>
@@ -67,12 +76,14 @@ url_web (bool) : image_url 이 web url 일때 True 사용<br>
 <br><br>
 
 ```python
-def get_principle_color_kmeans(self, cluster_size=4)
+def get_principle_color_kmeans(self, cluster_size=4, symbol_output=False)
 ```
 
 <h3><li><strong> PARAMETERS : </strong></li></h3>
 
 cluster_size (int) : kmeans 사용시 군집의 개수
+
+symbol_output (boolean) : return type 을 symbol로 설정
 
 <h3><li><strong> RETURNS : </strong></li></h3>
 

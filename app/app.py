@@ -1,6 +1,7 @@
 from style import *
+from bs4 import BeautifulSoup
 
-style_info = get_style_info(22589)
+style_lists = get_style_lists()
 
-for item in style_info:
-    print(get_item_info(item))
+print(style_lists)
+print(len(style_lists))

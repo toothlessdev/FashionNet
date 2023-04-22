@@ -27,7 +27,10 @@ def get_color_symbol(color):
 class ItemImage:
     def __init__(self, image_url, resize=True, resize_size=(100,100), url_web=True):
         if url_web:
-            self.image = Image.open(requests.get(url=image_url, stream=True).raw)
+            try:
+                self.image = Image.open(requests.get(url=image_url, stream=True).raw)
+            except requests.exceptions.RequestException as e:
+                print(f"http request error image.msscdn.net : {e}")
         else:
             self.image = Image.open(image_url)
 
@@ -36,8 +39,20 @@ class ItemImage:
         self.image_pixel = np.array(self.image.convert('RGB')).reshape((-1,3))
 
 
+    # k-means clustering 으로 주요 색상 추출
+    def get_principle_color_kmeans(self, cluster_size=4, symbol_output=False):
+        kmeans = KMeans(n_clusters=cluster_size, n_init=10).fit(self.image_pixel)
+        colors = kmeans.cluster_centers_
+        if not symbol_output:
+            return colors.astype(int)
+        else :
+            color_symbol_set = set()
+            for color in colors.astype(int):
+                color_symbol_set.add(get_color_symbol(color))
+            return color_symbol_set
 
     # 주 색상 n개 리턴, limit 비율 보다 적은 색상은 버림 (기본값 0.05)
+    '''
     def get_principle_color(self, n=5, limit=0.05):
         self.colors = dict()
         self.principle_color = dict()
@@ -53,14 +68,9 @@ class ItemImage:
             if value > self.image.width * self.image.height * limit:
                 self.principle_color[key] = value
         return self.principle_color
-
-
-    # k-means clustering 으로 주요 색상 추출
-    def get_principle_color_kmeans(self, cluster_size=4):
-        kmeans = KMeans(n_clusters=cluster_size, n_init=10).fit(self.image_pixel)
-        colors = kmeans.cluster_centers_
-        return colors.astype(int)
-
+    '''
+    
+    
 
 
 if __name__ == "__main__":
