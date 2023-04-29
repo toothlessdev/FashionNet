@@ -1,5 +1,35 @@
 <h1 style="font-size:40px; text-align:center;">FashionNet</h1>
 
+<h2>사용한 패키지, 라이브러리</h2>
+1. Beautiful Soup (pyton) - Web Crawling<br>
+2. Scikit Learn (python) - Image Pixel KMeans (의류 색상 추출)<br>
+3. NetworkX, Matplotlib (python) - Network 시각화 <br>
+4. Express (node.js) - REST API <br>
+3. neo4j (DB) - Graph DB Library<br>
+
+<br>
+
+<h2>데이터 저장</h2>
+1. 의류 쇼핑몰에서 코디 정보들을 크롤링<br>
+2. 착장 이미지에 대해 Meta 의 SAM 모델을 통해 의류를 분리후 저장<br>
+3. 추후 서비스 사용자들이 많아지면, 코디를 등록하고 서로 평가를 통해 좋은 평가를 받는 코디를 저장
+
+<br>
+
+<h2>네트워크 분석</h2>
+1. 동일 카테고리(대분류)끼리는 간선을 연결하지 않음<br>
+2. 코디로 묶여있는 의류끼리는 간선을 연결하고, 가중치를 높게 부여<br>
+3. 서로 다른 카테고리(대분류)에 속해있지만, 코디로 묶이지 않아 간선이 없는 노드끼리는<br>
+간선을 추가하고 음의 가중치를 부여한다<br>
+<br>
+
+<h2>적용</h2>
+1. 네트워크의 매개 중심성(Betweenness Centrality) 분석을 진행<br>
+2. 사용자가 이미 가지고 있는 의류에 특정한 의류를 추가하면 많은 코디를 완성시킬 수 있다면<br>
+3. 해당 의류를 추천해주는 시스템<br>
+
+<br><br><br><br><br><br><br><br>
+
 <h2>Tasks</h2>
 <h4>● get_style_list 함수구현 : /codimap/lists?page 로 부터 /codimap/views/ 에 들어갈 index 파싱 (23.4.23)</h4>
 <h4></h4>

@@ -39,7 +39,7 @@ def get_style_info(index):
         items = soup.find_all("a", "brand_item")
 
         for item in items:
-            item_array.append(item["href"].lstrip("/app/goods/").rstrip("/0"))
+            item_array.append(item["href"].lstrip("/app/goods/").replace("/0", ""))
         return item_array
         
     except requests.exceptions.RequestException as e:
