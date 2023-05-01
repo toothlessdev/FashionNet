@@ -1,121 +1,315 @@
 <!DOCTYPE html>
-<html lang="ko">
-    <script type="text/javascript" src="//goods.musinsa.com/static/js/common/common.js?202304251524"></script>
-    <script type="text/javascript" src="//goods.musinsa.com/static/js/common/util/browserUtil.js?202304251524"></script>
-    <script type="text/javascript" src="//goods.musinsa.com/static/js/common/util/loginUtil.js?202304251524"></script>
 
-    <div id="estimateBox" class="wrap-prd-estimate">
-        <h3 class="title-box font-mss">구매후기(<span id="review_total">0</span>)</h3>
-        <!-- // 만족도-->
-        <div id="satisfaction_fragment"></div>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <div class="tabBox">
-            <ul class="snb">
-                <li class="box-tab-btn tab-btn btn btnReviewTypeTab active" data-for="style-estimate" data-type="style" data-review-count="595" data-active="true">
-                    <h4 class="title-box font-mss">
-                        <span class="korSub" id="estimate_style">스타일 (595)</span>
-                    </h4>
-                </li>
+        <title>Document</title>
+    </head>
 
-                <li class="box-tab-btn tab-btn btn btnReviewTypeTab" data-for="photo-estimate" data-type="photo" data-review-count="441" data-active="false">
-                    <h4 class="title-box font-mss">
-                        <span class="korSub" id="estimate_photo">상품 사진 (441)</span>
-                    </h4>
-                </li>
-
-                <li class="box-tab-btn tab-btn btn btnReviewTypeTab" data-for="goods-estimate" data-type="goods" data-review-count="1132" data-active="false">
-                    <h4 class="title-box font-mss">
-                        <span class="korSub" id="estimate_goods">일반 (1,132)</span>
-                    </h4>
-                </li>
-            </ul>
-
-            <div class="tab active right_contents">
-                <!-- wrap -->
-                <div id="wrapperEventEstimate">
-                    <div id="wrapEventEstimateList" style="display: none"></div>
-                </div>
-                <div class="wrap review_list_detail" id="wrapEstimateList">
-                    <p class="article_review_detail">
-                        <span class="info_event_line">EVENT</span>
-                        <span id="reviewEventText" class="info_review_detail">상품 사진 후기 작성 시 1,000원의 적립금을 드립니다.(직접 촬영한 제품 사진 필수/착용 사진 불가)</span>
-                    </p>
-
-                    <p class="article_review_select">
-                        <select id="reviewSelectSort" class="review_select_sort" onchange="ReviewSort.apiCall(this.value)">
-                            <option value="new" selected="selected">최신순</option>
-                            <option value="comment_cnt_desc">댓글 순</option>
-                            <option value="up_cnt_desc">추천 순</option>
-                            <option value="goods_est_desc">높은 평점 순</option>
-                            <option value="goods_est_asc">낮은 평점 순</option>
-                        </select>
-
-                        <select id="reviewGoodsSimilarList" onchange="ReviewSimilar.selectedSimilar(this.value)">
-                            <option value="">다른 컬러 후기 보기</option>
-                        </select>
-                    </p>
-
-                    <!-- //리스트-->
-                    <div id="reviewListFragment" class="review-list-wrap"></div>
-                </div>
-                <!--// wrap -->
-                <script>
-                    $(function () {
-                        $("#wrapEstimateList").find(".notCrawlText").show();
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-
-    <template id="reply-form-template">
-        <!--대댓글작성-->
-        <div class="onelinePost" editform="1" style="padding-top: 15px; padding-bottom: 15px">
-            <span class="profile" style="border: none"></span>
-            <p class="recomment_box replies-form">
-                <!--class="recomment_box_extend"-->
-                <textarea></textarea>
-                <input type="button" value="닫기" class="command-close command-btn" onclick="CommentsReply.closeReplyForm($(this));" />
-                <input type="button" value="수정" class="command-change command-btn" onclick="CommentsReply.commentsReplyEdit($(this));" />
-            </p>
-            <span class="showAll-btn btn boxresize"><a href="javascript:void(0);" onclick="CommentsReply.textAreaSizeChange($(this));">입력 상자 크게</a></span>
-        </div>
-    </template>
-
-    <script type="text/javascript" src="//goods.musinsa.com/static/js/pc/goods/comments.js?202304251524"></script>
-    <script type="text/javascript" src="//goods.musinsa.com/static/js/common/file/fileUtil.js?202304251524"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var goodsServiceDomain = "\/\/goods.musinsa.com";
-            var staticResourceVersion = "202304251524";
-            var jsUrl = goodsServiceDomain + "/static/js/pc/goods/review.js?" + staticResourceVersion;
-
-            $.getScript(jsUrl, function () {
-                var reviewParams = {
-                    goodsNo: 2789111,
-                    similarNo: 2789111,
-                    selectSimilarNo: 2789111,
-                    itemCategoryCode: "029015005",
-                };
-
-                ReviewEvent.init();
-                ReviewParams.setReviewParams(reviewParams);
-                TabCount.onActive();
-                ReviewSimilar.apiCall();
-            });
-
-            var satisfactionJsUrl = goodsServiceDomain + "/static/js/pc/goods/review_satisfaction.js?" + staticResourceVersion;
-            $.getScript(satisfactionJsUrl, function () {
-                Satisfaction.setSatisfactionParams({
-                    goodsNo: 2789111,
-                    similarNo: 2789111,
-                    selectSimilarNo: 2789111,
-                    itemCategoryCode: "029015005",
-                    isMobile: "N",
-                });
-                Satisfaction.apiCall();
-            });
-        });
-    </script>
+    <body>
+        <table class="fullwidth-table">
+            <tbody>
+                <tr>
+                    <th>Precedence</th>
+                    <th>Operator type</th>
+                    <th>Associativity</th>
+                    <th>Individual operators</th>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Grouping">Grouping</td>
+                    <td>n/a</td>
+                    <td><code>( … )</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="5">17</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#dot_notation">Member Access</td>
+                    <td rowspan="2">left-to-right</td>
+                    <td><code>… . …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining">Optional chaining</td>
+                    <td><code>… ?. …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#bracket_notation">Computed Member Access</td>
+                    <td rowspan="3">n/a</td>
+                    <td><code>… [ … ]</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/new"><code>new</code> (with argument list)</td>
+                    <td><code>new … ( … )</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Guide/Functions">Function Call</td>
+                    <td><code>… ( … )</code></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/new"><code>new</code> (without argument list)</td>
+                    <td>n/a</td>
+                    <td><code>new …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">15</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement">Postfix Increment</td>
+                    <td rowspan="2">n/a</td>
+                    <td><code>… ++</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement">Postfix Decrement</td>
+                    <td><code>… --</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="10">14</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Logical_NOT">Logical NOT (!)</td>
+                    <td rowspan="10">n/a</td>
+                    <td><code>! …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_NOT">Bitwise NOT (~)</td>
+                    <td><code>~ …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus">Unary plus (+)</td>
+                    <td><code>+ …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Unary_negation">Unary negation (-)</td>
+                    <td><code>- …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement">Prefix Increment</td>
+                    <td><code>++ …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement">Prefix Decrement</td>
+                    <td><code>-- …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/typeof"><code>typeof</code></td>
+                    <td><code>typeof …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/void"><code>void</code></td>
+                    <td><code>void …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/delete"><code>delete</code></td>
+                    <td><code>delete …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/await"><code>await</code></td>
+                    <td><code>await …</code></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation">Exponentiation (**)</td>
+                    <td>right-to-left</td>
+                    <td><code>… ** …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">12</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Multiplication">Multiplication (*)</td>
+                    <td rowspan="3">left-to-right</td>
+                    <td><code>… * …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Division">Division (/)</td>
+                    <td><code>… / …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Remainder">Remainder (%)</td>
+                    <td><code>… % …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">11</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Addition">Addition (+)</td>
+                    <td rowspan="2">left-to-right</td>
+                    <td><code>… + …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Subtraction">Subtraction (-)</td>
+                    <td><code>… - …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">10</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Left_shift">Bitwise Left Shift (&lt;&lt;)</td>
+                    <td rowspan="3">left-to-right</td>
+                    <td><code>… &lt;&lt; …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Right_shift">Bitwise Right Shift (&gt;&gt;)</td>
+                    <td><code>… &gt;&gt; …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Unsigned_right_shift">Bitwise Unsigned Right Shift (&gt;&gt;&gt;)</td>
+                    <td><code>… &gt;&gt;&gt; …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="6">9</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Less_than">Less Than (&lt;)</td>
+                    <td rowspan="6">left-to-right</td>
+                    <td><code>… &lt; …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Less_than_or_equal">Less Than Or Equal (&lt;=)</td>
+                    <td><code>… &lt;= …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than">Greater Than (&gt;)</td>
+                    <td><code>… &gt; …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than_or_equal">Greater Than Or Equal (&gt;=)</td>
+                    <td><code>… &gt;= …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/in"><code>in</code></td>
+                    <td><code>… in …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/instanceof"><code>instanceof</code></td>
+                    <td><code>… instanceof …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="4">8</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Equality">Equality (==)</td>
+                    <td rowspan="4">left-to-right</td>
+                    <td><code>… == …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Inequality">Inequality (!=)</td>
+                    <td><code>… != …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality">Strict Equality (===)</td>
+                    <td><code>… === …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Strict_inequality">Strict Inequality (!==)</td>
+                    <td><code>… !== …</code></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_AND">Bitwise AND (&amp;)</td>
+                    <td>left-to-right</td>
+                    <td><code>… &amp; …</code></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_XOR">Bitwise XOR (^)</td>
+                    <td>left-to-right</td>
+                    <td><code>… ^ …</code></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_OR">Bitwise OR (|)</td>
+                    <td>left-to-right</td>
+                    <td><code>… | …</code></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Logical AND (&amp;&amp;)</td>
+                    <td>left-to-right</td>
+                    <td><code>… &amp;&amp; …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">3</td>
+                    <td>Logical OR (||)</td>
+                    <td rowspan="2">left-to-right</td>
+                    <td><code>… || …</code></td>
+                </tr>
+                <tr>
+                    <td>Nullish coalescing operator (??)</td>
+                    <td><code>… ?? …</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="21">2</td>
+                    <td rowspan="16">Assignment</td>
+                    <td rowspan="16">right-to-left</td>
+                    <td><code>… = …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… += …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… -= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… **= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… *= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… /= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… %= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… &lt;&lt;= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… &gt;&gt;= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… &gt;&gt;&gt;= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… &amp;= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… ^= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… |= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… &amp;&amp;= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… ||= …</code></td>
+                </tr>
+                <tr>
+                    <td><code>… ??= …</code></td>
+                </tr>
+                <tr>
+                    <td>Conditional (ternary) operator</td>
+                    <td>right-to-left<br />(Groups on expressions after <code>?</code>)</td>
+                    <td><code>… ? … : …</code></td>
+                </tr>
+                <tr>
+                    <td>Arrow (=&gt;)</td>
+                    <td>right-to-left</td>
+                    <td><code>… =&gt; …</code></td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>yield</code>
+                    </td>
+                    <td rowspan="3">n/a</td>
+                    <td><code>yield …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/yield*"><code>yield*</code></td>
+                    <td><code>yield* …</code></td>
+                </tr>
+                <tr>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">Spread (...)</td>
+                    <td><code>... …</code></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>/en-US/docs/Web/JavaScript/Reference/Operators/Comma_operator">Comma / Sequence</td>
+                    <td>left-to-right</td>
+                    <td><code>… , …</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
 </html>

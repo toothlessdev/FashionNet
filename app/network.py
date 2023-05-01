@@ -1,39 +1,57 @@
 from style import *
+from bs4 import BeautifulSoup
 
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-font_path = 'NanumSquare.ttf'
-fontprop = fm.FontProperties(fname=font_path)
 
+G = nx.MultiDiGraph()
 
+style_lists = get_style_lists(page_index=1)
 
-if __name__ == "__main__":
-    plt.rcParams['font.family'] = 'NanumSquare'
-    plt.rcParams['font.size'] = 8
+for style_list in style_lists[0:2]:
+    print(f"codimap/views/{style_list}")
+    style_info = get_style_info(style_list)
 
-    graph = nx.Graph()
-
-    node_index_start = 1
-
-    node_index = node_index_start
-    style_info = get_style_info(22589)
-
-    # add Nodes
+    # 새로운 /codimap/views 의 시작 node index
+    style_group = list()
+    
     for item in style_info:
-        node_attr = get_item_info(item)
-        graph.add_node(node_for_adding=node_index, label=str(node_attr))
-        node_index += 1
+        item_info = get_item_info(item)
+        print(f"/goods/{item} ", end="")
+        print(f"{item_info}")
 
-    # add Edges
-    for index in range(node_index):
-        graph.add_edge(index, index+1)
+        # /goods/{item} 마다 노드번호 item 부여
+        # 해당 노드에 category attribute 추가
+        style_group.append(item)
+        G.add_node(node_for_adding=item, attr={"category" : item_info["category"]})
 
-    node_index_start = node_index
+    # /codimap/views 에 있는 items (style_group)끼리 edges로 연결
+    for idx in range(len(style_group)-1):
+        G.add_edge(style_group[idx], style_group[idx+1], weight=10)
 
 
-    nx.draw(graph, with_labels=True)
-    labels = nx.get_node_attributes(graph, 'label')
-    nx.draw_networkx_labels(graph, pos=nx.spring_layout(graph), labels=labels, font_family='NanumSquare', font_size=12)
-    plt.show()
+# 서로 다른 카테고리(대분류)에 속해있지만
+# 코디로 묶이지 않아 간선이 없는 노드에 대해
+# 간선을 추가하고 음의 가중치를 부여한다.
+for src in list(G.nodes()):
+    for dst in list(G.nodes()):
+        if src != dst:
+            src_category = G.nodes[src]["attr"]["category"]
+            dst_category = G.nodes[dst]["attr"]["category"]
+            if not G.has_edge(src, dst):
+                if src_category != dst_category:
+                    G.add_edge(src, dst, weight=-50)
+                else:
+                    G.add_edge(src, dst, weight=10)
+
+
+
+
+# draw graph with weighted edges
+pos=nx.spring_layout(G)
+nx.draw(G,pos,with_labels=True)
+nx.draw_networkx_edge_labels(G,pos)
+plt.show()
+
+
 
